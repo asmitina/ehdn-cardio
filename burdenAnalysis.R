@@ -60,9 +60,7 @@ for(f in 1:length(feat)){
     #else
     #tmp.burden <- data.frame("gs" = names(feat)[f], 
     # testByAggregate(dt$repeatID[dt$varid %in% ann$varid[ann$typeseq_priority %in% feat[[f]]]], 
-    #  tmp, sampleinfo, ehdn.genotype.data, "dummy"),
-    #fisher(dt$outliers[dt$varid %in% ann$varid[ann$typeseq_priority %in% feat[[f]]]], 
-    #genic.count, sampleinfo))
+    #  tmp, sampleinfo, ehdn.genotype.data, "dummy"))
     genic.burden <- rbind(genic.burden, tmp.burden)
   }
 }
