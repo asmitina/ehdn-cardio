@@ -31,8 +31,8 @@ sampleinfo <- read.delim("samples.with.TRcount.txt", stringsAsFactors = F)
 outliers <- readLines("samples.with.exceed.trs.txt")
 sampleinfo <- sampleinfo[(!sampleinfo$Var1 %in% outliers) & (sampleinfo$cohort != "1000G"), ]
 names(sampleinfo) <- c("sample", "trs", "cohort")
-sampleinfo = sampleinfo[sampleinfo$sample %in% clean.sample,]
-sampleinfo = sampleinfo[!duplicated(sampleinfo$sample),]
+sampleinfo <- sampleinfo[sampleinfo$sample %in% clean.sample,]
+sampleinfo <- sampleinfo[!duplicated(sampleinfo$sample),]
 sampleinfo$status <- ifelse(sampleinfo$cohort == "CMP", 1, 0)
 
 start <- Sys.time()
