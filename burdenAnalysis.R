@@ -3,7 +3,7 @@ library(data.table)
 library(plotrix)
 library(readr)
 
-ann <- fread("merged.expansions.forannotation.tsv", data.table = F)
+ann <- fread("merged.expansions.annotation.tsv", data.table = F)
 ann <- ann[ann$chr %in% paste0("chr", 1:22), ]
 
 ann$typeseq_priority <- factor(ann$typeseq_priority, 
