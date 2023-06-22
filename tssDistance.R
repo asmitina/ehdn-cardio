@@ -1,4 +1,5 @@
 library(GenomicRanges)
+library(scales)
 library(readr)
 
 refflat <- read.delim("hg38_refFlat.txt", stringsAsFactors = F, header = F)# 77227
