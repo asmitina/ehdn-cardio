@@ -2,11 +2,11 @@ library(GenomicRanges)
 library(readr)
 
 refflat <- read.delim("hg38_refFlat.txt", stringsAsFactors = F, header = F)# 77227
-ref.info = read.delim('refflat.tsv', stringsAsFactors = F, header = F, sep = '')
+ref.info <- read.delim('refflat.tsv', stringsAsFactors = F, header = F, sep = '')
 colnames(refflat) = gsub(';', '',ref.info$V2)
-refflat = refflat[,1:8]
-refflat$txSize = refflat$txEnd - refflat$txStart
-refflat$cdsSize = refflat$cdsEnd - refflat$cdsStart
+refflat <- refflat[,1:8]
+refflat$txSize <- refflat$txEnd - refflat$txStart
+refflat$cdsSize <- refflat$cdsEnd - refflat$cdsStart
 refflat$tis100kbstart <- ifelse(refflat$strand == "+", refflat$txStart-10000, refflat$txEnd-10000)
 refflat$tis100kbend <- ifelse(refflat$strand == "+", refflat$txStart+10000, refflat$txEnd+10000)
 refflat.g <- GRanges(refflat$chrom, IRanges(refflat$tis100kbstart, refflat$tis100kbend))
@@ -34,15 +34,15 @@ rare.expansion <- rare.expansion[rare.expansion$chr %in% paste0("chr", c(1:22)),
 rare.expansion$size <- rare.expansion$end - rare.expansion$start
 
 for (i in 1:nrow(rare.expansion)){ 
-  samples = strsplit(rare.expansion$outliers[i], ';')[[1]]
-  rare.expansion$cmp_clean[i] = paste0(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CMP']], collapse = ';')
-  rare.expansion$control_clean[i] = paste0(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CHILD']], collapse = ';')
+  samples <- strsplit(rare.expansion$outliers[i], ';')[[1]]
+  rare.expansion$cmp_clean[i] <- paste0(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CMP']], collapse = ';')
+  rare.expansion$control_clean[i] <- paste0(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CHILD']], collapse = ';')
   
-  rare.expansion$cmp_cl.count[i] = length(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CMP']])
-  rare.expansion$control_cl.count[i] = length(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CHILD']])
+  rare.expansion$cmp_cl.count[i] <- length(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CMP']])
+  rare.expansion$control_cl.count[i] <- length(samples[samples %in% sampleinfo$sample[sampleinfo$cohort == 'CHILD']])
 }
 
-rare.cmp = rare.expansion[rare.expansion$cmp_cl.count > 0 ,]
+rare.cmp <- rare.expansion[rare.expansion$cmp_cl.count > 0 ,]
 # median.size.cmp <- median(rare.cmp$size)# 1233 -> 1234.5
 # iqr.size.cmp <- IQR(rare.cmp$size)# 713 -> 685.25
 rare.cmp <- data.frame(reduce(GRanges(rare.cmp$chr.x, IRanges(as.numeric(rare.cmp$start.x), as.numeric(rare.cmp$end.x)), "*")))
@@ -50,7 +50,7 @@ rare.cmp.g <- GRanges(rare.cmp$seqnames, IRanges(rare.cmp$start, rare.cmp$end), 
 rare.distance.cmp <- getdistance(refflat.g, rare.cmp.g, refflat, rare.cmp) # 59
 rare.distance.cmp$type <- "rare cmp"
 
-rare.child = rare.expansion[rare.expansion$control_clean > 0 ,]
+rare.child <- rare.expansion[rare.expansion$control_clean > 0 ,]
 # median.size.child <- median(rare.child$size)# 1085 -> 1072.5
 # iqr.size.child <- IQR(rare.child$size)# 584 -> 580
 rare.child <- data.frame(reduce(GRanges(rare.child$chr.x, IRanges(as.numeric(rare.child$start.x), as.numeric(rare.child$end.x)), "*")))
@@ -66,8 +66,8 @@ detected.expansion.g <- GRanges(detected.expansion$seqnames, IRanges(detected.ex
 detected.distance <- getdistance(refflat.g, detected.expansion.g, refflat, detected.expansion)
 detected.distance$type <- "all expansions"
 
-# Plot the distance to TSS from rare TREs in CA control
-test = wilcox.test(abs(rare.distance.child$distance)[abs(rare.distance.child$distance) <= 5000], 
+#### Plot the distance to TSS from rare TREs in CA control
+test <- wilcox.test(abs(rare.distance.child$distance)[abs(rare.distance.child$distance) <= 5000], 
                    abs(detected.distance$distance)[abs(detected.distance$distance) <= 5000], 
                    alternative = "less")$p.value 
 pdf('density.plot.ca.control.pdf', w = 4, h = 3.5)
@@ -92,14 +92,14 @@ legend('topright', lwd = 2, lty = 1, pt.cex=1, inset=c(-0,-0.2), xpd = TRUE, bty
 legend('topright', legend = paste0('p = ', signif(test, digit = 2)), bty = "n", inset = c(0.1, 0), xpd = TRUE)
 dev.off()
 
-# Plot the distance to TSS from rare TREs in CA CMP
-test = wilcox.test(abs(rare.distance.cmp$distance)[abs(rare.distance.cmp$distance) <= 5000], 
+#### Plot the distance to TSS from rare TREs in CA CMP
+test <- wilcox.test(abs(rare.distance.cmp$distance)[abs(rare.distance.cmp$distance) <= 5000], 
                    abs(detected.distance$distance)[abs(detected.distance$distance) <= 5000], 
                    alternative = "less")$p.value
 pdf('density.plot.ca.control.pdf', w = 4, h = 3.5)
 par(mar = c(5,5,3,2), mgp = c(2,1,0), mfrow=c(1,1)) 
 plot(density(rare.distance.cmp$distance, bw = 100), col = 'dodgerblue3', lwd = 2, xlim = c(-5000,5000), 
-     ylab = '', xaxt="n", yaxt = "n", main = '', xlab = 'Distance from TSS')
+     ylab = '', xaxt="n", yaxt = "n", main = '', xlab = 'Distance from TSS', ylim = c(0,0.0005))
 polygon(density(rare.distance.cmp$distance, bw = 100), col = alpha('dodgerblue3', 0.3))
 lines(density(rare.distance.cmp$distance, bw = 100), col = "dodgerblue3", lwd = 2, xlim = c(-5000,5000))
 polygon(density(detected.distance$distance, bw = 100), col = alpha('grey28', 0.3))
@@ -122,22 +122,16 @@ dev.off()
 
 
 #### get regions within 5K from TSS
-cmp.dist = rare.distance.cmp[abs(rare.distance.cmp$distance) <= 5000,]
-cmp.select = rare.cmp[rownames(rare.cmp) %in% cmp.dist$queryHits,]
-cmp.select$varid = paste(cmp.select$seqnames, cmp.select$start, cmp.select$end, sep="#")
-cmp.tss.5k = all[all$varid %in% cmp.select$varid,]
+cmp.dist <- rare.distance.cmp[abs(rare.distance.cmp$distance) <= 5000,]
+cmp.select <- rare.cmp[rownames(rare.cmp) %in% cmp.dist$queryHits,]
+cmp.select$varid <- paste(cmp.select$seqnames, cmp.select$start, cmp.select$end, sep="#")
 
-child.dist = rare.distance.child[abs(rare.distance.child$distance) <= 5000,]
-child.select = rare.child[rownames(rare.child) %in% child.dist$queryHits,]
-child.select$varid = paste(child.select$seqnames, child.select$start, child.select$end, sep="#")# 30
-child.tss.5k = all[all$varid %in% child.select$varid,]# 24;;; 30
-child.tss = sort(unique(child.tss.5k$gene_symbol))
-child.tss.old = readLines('gene_set/core.child.genes.txt')
-setdiff(child.tss.old, child.tss)
-write.table(child.tss, "gene_set/core.child.genes.updated.22.txt", sep="\t", row.names = F, col.names=F, quote=F)
-write.table(child.tss, "Documents/_Ryan/_Seema_Myocardium/_INOVA_CHILD_EHdn/gene_set/core.child.genes.updated.22.txt", sep="\t", row.names = F, col.names=F, quote=F)
+child.dist <- rare.distance.child[abs(rare.distance.child$distance) <= 5000,]
+child.select <- rare.child[rownames(rare.child) %in% child.dist$queryHits,]
+child.select$varid <- paste(child.select$seqnames, child.select$start, child.select$end, sep="#")
 
-tss.5k <- rbind(cmp.tss.5k, child.tss.5k)
-tss.5k = tss.5k[order(tss.5k$varid),]
-tss.5k = tss.5k[!duplicated(tss.5k$varid),]
-write.table(tss.3.5k, "5k.tss.cmp.child.tsv", sep="\t", row.names = F, col.names=T, quote=F)
+tss.5k <- rbind(rare.expansion[rare.expansion$varid %in% cmp.select$varid,], 
+                rare.expansion[rare.expansion$varid %in% child.select$varid,])
+tss.5k <- tss.5k[order(tss.5k$varid),]
+tss.5k <- tss.5k[!duplicated(tss.5k$varid),]
+write.table(tss.5k, "5k.tss.cmp.child.tsv", sep="\t", row.names = F, col.names=T, quote=F)
