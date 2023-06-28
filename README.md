@@ -18,3 +18,4 @@ The scripts generate the results and plots as follows:
 * constraintScores.R - calculates constraint scores of genes with rare TREs; generates Figure 2B.
 * promoterEpigenetic.R - calculates burden in regions overlapping promoter and epigenetic marks; generates Figure 3B. Output of the script is provided as Supplementary Table S9.
 * testFactors.R - calculates the number of rare TREs with respect to clinical variables; generates Figure 3C. Output of the script is provided as Supplementary Table S10.
+* ehSizeDistribution.R - calculates and plots EH allele size distribution for Figures 5A, C and D.
