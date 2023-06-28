@@ -7,6 +7,8 @@ Prior to the steps described here, I use ExpansionHunterDenovo on WGS data, Expa
 
 The scripts generate the results and plots as follows:
 
+* motifDistribution.R - calculates and plots distribution of GC-composition and motif length for Figures 1A-D.
+
 * expansionAnalysisFunctions.R - contains functions used for burden analysis and epigenetic marks
 
 * correlationBins.R - calculates correlation between the number of rare TREs and different genomic features in 1 kb segments; generates Figure 1E. Output of the script is provided as Supplementary Table S6.
