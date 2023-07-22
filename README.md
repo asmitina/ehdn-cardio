@@ -11,11 +11,11 @@ The scripts generate the results and plots as follows:
 
 * expansionAnalysisFunctions.R - contains functions used for burden analysis and epigenetic marks
 
-* correlationBins.R - calculates correlation between the number of rare TREs and different genomic features in 1 kb segments; generates Figure 1E. Output of the script is provided as Supplementary Table S6.
-* sizePercentile.R - calculates distribution of repeat size in proband-parent pairs; generates Figure 1F. Repeat size calculated in this script and used to generate the plot is available as Supplementary Table S7.
+* correlationBins.R - calculates correlation between the number of rare TREs and different genomic features in 1 kb segments; generates Figure 1E. Output of the script is provided as Table 6.
+* sizePercentile.R - calculates distribution of repeat size in proband-parent pairs; generates Figure 1F. Repeat size calculated in this script and used to generate the plot is available as Table 7.
 * tssDistance.R - calculates distance from rare TREs to the nearest TSSs; generates Figure 3A. 
-* burdenAnalysis.R - calculates burden in genic regions; generates Figure 2A. Output of the script is provided as Supplementary Table S8.
+* burdenAnalysis.R - calculates burden in genic regions; generates Figure 2A. Output of the script is provided as Table 1.
 * constraintScores.R - calculates constraint scores of genes with rare TREs; generates Figure 2B.
-* promoterEpigenetic.R - calculates burden in regions overlapping promoter and epigenetic marks; generates Figure 3B. Output of the script is provided as Supplementary Table S9.
-* testFactors.R - calculates the number of rare TREs with respect to clinical variables; generates Figure 3C. Output of the script is provided as Supplementary Table S10.
+* promoterEpigenetic.R - calculates burden in regions overlapping promoter and epigenetic marks; generates Figure 3B. Output of the script is provided as Table 2.
+* testFactors.R - calculates the number of rare TREs with respect to clinical variables; generates Figure 3C. Output of the script is provided as Table 3.
 * ehSizeDistribution.R - calculates and plots EH allele size distribution for Figures 5A, C and D.
